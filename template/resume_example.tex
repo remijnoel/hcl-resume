@@ -1,0 +1,85 @@
+\makeatletter
+\def\input@path{{latex-templates/}}
+\makeatother
+\documentclass{resume} % Use the custom resume.cls style from the specified path
+
+\usepackage[left=0.4 in,top=0.4in,right=0.4 in,bottom=0.4in]{geometry} % Document margins
+\usepackage{enumitem}
+% \usepackage{textcomp}
+\usepackage{eurosym}
+
+
+\newcommand{\tab}[1]{\hspace{.2667\textwidth}\rlap{#1}} 
+\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+\name{Firstname Lastname} % Your name
+\address{(123) 456-7890 \\ john@doe.com  \\ Seattle, WA \\ www.someurl.com} 
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	OBJECTIVE
+%----------------------------------------------------------------------------------------
+\begin{center}
+The summary 
+\end{center}
+
+%----------------------------------------------------------------------------------------
+% SKILLS
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{Skills}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ @{} >{\bfseries}l @{\hspace{6ex}} l }
+
+\textbf{Skill name} & keyword1, etc. \\
+
+
+\end{tabular}\\
+\end{rSection}
+\vspace{2pt}    
+
+%----------------------------------------------------------------------------------------
+%	WORK EXPERIENCE
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{Professional Experience}
+
+%% Exp item
+    %% Header
+    \vspace{4pt}
+    \textbf{name of the position} \hfill startDate - endDate\\
+    Company name \hfill \textit{company city, state}
+    
+    %% Description short
+    
+    \textnormal{Brief description of the position, responsibilities, and impact. Focus on achievements and contributions.}
+    \begin{itemize}[parsep=3pt]
+        \item Highlight 1
+        \item Highlight 2
+        etc.
+    \end{itemize}
+    
+
+
+%----------------------------------------------------------------------------------------
+%	EDUCATION SECTION
+%----------------------------------------------------------------------------------------
+\vspace{2pt}
+\begin{rSection}{Education}
+
+    {\bf Name of the diploma}, Institution, Country
+
+
+\end{rSection}
+
+%----------------------------------------------------------------------------------------
+%	CERTIFICATION SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{Certifications}
+
+    Name of the certification, Issuer, Date\\
+
+\end{rSection}
+
+\end{document}

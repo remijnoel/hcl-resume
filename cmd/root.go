@@ -1,8 +1,12 @@
 package cmd
 
 import (
+	"github.com/openai/openai-go"
+	"github.com/remijnoel/hcl-resume/internal"
 	"github.com/spf13/cobra"
 )
+
+var ai *openai.Client = internal.NewOpenAIClient()
 
 var RootCmd = &cobra.Command{
 	Use:   "hcl-resume",
@@ -11,8 +15,8 @@ var RootCmd = &cobra.Command{
 		config()
 		return nil
 	},
-}
 
+}
 
 func Execute() {
 	cobra.CheckErr(RootCmd.Execute())
