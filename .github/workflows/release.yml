@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on every v* tag, like v1.0.0
+
+env:
+  APP_NAME: ailops  # change to your app's name
+
+jobs:
+  build:
+    name: Build and Release Binaries
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        goos: [linux, darwin, windows]
+        goarch: [amd64, arm64]
+        exclude:
+          - goos: windows
+            goarch: arm64  # Windows/arm64 not common
+          - goos: darwin
+            goarch: amd64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Build
+        run: |
+          echo "Building for GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }}"
+          GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} make build
+      - name: Create zip archive
+        run: |
+          echo "Creating zip archive for GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }}"
+          cd dist
+          zip -r ${{env.APP_NAME}}-${{ matrix.goos }}_${{ matrix.goarch }}.zip *
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{env.APP_NAME}}-${{ matrix.goos }}_${{ matrix.goarch }}
+          path: dist/${{env.APP_NAME}}-${{ matrix.goos }}_${{ matrix.goarch }}.zip
+
+  release:
+    name: Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to create a release
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*
+
